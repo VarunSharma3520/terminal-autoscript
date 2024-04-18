@@ -1,0 +1,6 @@
+ls
+mkdir test_dir
+cd test_dir
+touch test_file_inside.py
+cd ..
+touch test_file_outside.py
