@@ -1,18 +1,23 @@
-import subprocess
+import platform
+import os
+
+def run_command(command):
+    print(f"Upcoming Command: {command}")
+    permission = input("[Y/n] for next step: ").lower()
+    if permission != "n":
+        print("\n")
+        os.system(command)
 
 def cmd_from_file(file_path):
     try:
         with open(file_path, 'r') as file:
-            command = file.read().strip()
-            subprocess.run(['powershell', '-Command', command], check=True) # for PowerShell (Windows)
-            # subprocess.run(['bash', '-c', command], check=True) # for Bash
-            return command
+            commands = [line.strip() for line in file.readlines() if line.strip()]
+            for command in commands:
+                run_command(command)
 
     except FileNotFoundError:
         print("File not found:", file_path)
-    except subprocess.CalledProcessError as e:
-        print("PowerShell Error:", e)
 
 # Example usage:
 file_path = 'command.txt'
-print(cmd_from_file(file_path))
+cmd_from_file(file_path)
